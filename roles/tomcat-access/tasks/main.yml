@@ -1,0 +1,49 @@
+---
+# tasks file for delos-user-access
+
+- name: Create group tomcat-{{ tomcat_user_access_type }}
+  group:
+   name: "tomcat-{{ tomcat_user_access_type }}"
+   state: present
+
+- name: Deploy script for permission setup
+  copy:
+   src: "set_tomcat-{{ tomcat_user_access_type }}.sh"
+   dest: "{{ script_directory }}/set_tomcat-{{ tomcat_user_access_type }}.sh"
+   mode: 0700
+  when: tomcat_user_access_type != "operator"
+
+- name: Run script permission setup script
+  command: "{{ script_directory }}/set_tomcat-{{ tomcat_user_access_type }}.sh"
+  when: tomcat_user_access_type != "operator"
+
+- name: Create user accounts
+  user:
+   name: "{{ item }}"
+   shell: /bin/bash
+   state: present
+   groups: "tomcat-{{ tomcat_user_access_type }}"
+   append: yes
+  with_items: "{{ tomcat_user_list }}"
+  register: create_user
+
+- name: Deploy sudoers file granting management over tomcat service for tomcat operators
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers
+    validate: visudo -cf %s
+  when: tomcat_user_access_type == "operator"
+
+- name: Create temporary user password
+  user:
+   name: "{{ item }}"
+   password: "{{ tomcat_user_password | password_hash('sha512') }}"
+   update_password: always
+  with_items: "{{ tomcat_user_list }}"
+  register: create_password
+  when: create_user.changed
+
+- name: Expire user password forcing password change at first login
+  shell: passwd -e "{{ item }}"
+  with_items: "{{ tomcat_user_list }}"
+  when: create_password.changed

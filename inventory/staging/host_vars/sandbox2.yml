@@ -1,0 +1,6 @@
+---
+keepalived_state: BACKUP
+keepalived_priority: 100
+keepalived_interface: eth0
+
+...

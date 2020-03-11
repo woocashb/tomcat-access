@@ -1,0 +1,13 @@
+---
+# defaults file for delos-user-access
+tomcat_user_list:
+- bkasza
+
+tomcat_user_password: "tymczasowe@123"
+ 
+# dostęp tylko do odczytu: ro
+# dostęp do odczytu i zapisu: rw
+# możliwość zarządzania usługą tomcata: operator
+tomcat_user_access_type: rw
+
+script_directory: /opt/scripts

@@ -1,0 +1,2 @@
+[www]
+www03 ansible_host=192.168.2.229

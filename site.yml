@@ -1,0 +1,7 @@
+---
+- name: Master playbook
+  
+  hosts: all
+
+  roles:
+  - tomcat-access

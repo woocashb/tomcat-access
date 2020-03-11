@@ -1,0 +1,44 @@
+[relaybalancer-ap]
+relaybalancer-ap1 ansible_host=192.168.11.91
+relaybalancer-ap2 ansible_host=192.168.11.92
+
+[relaybalancer-xml]
+relaybalancer-xml-ap1 ansible_host=192.168.11.93
+relaybalancer-xml-ap2 ansible_host=192.168.11.94
+
+[relaybalancers:children]
+relaybalancer-ap
+relaybalancer-xml
+
+[zzm]
+zzm-ap1 ansible_host=192.168.11.55
+zzm-ap2 ansible_host=192.168.11.59
+
+[iguard]
+iguard-ap1 ansible_host=192.168.11.41
+iguard-ap2 ansible_host=192.168.11.42
+
+[mysolid]
+mysolid-ap1 ansible_host=192.168.11.52
+mysolid-ap2 ansible_host=192.168.11.53
+mysolid-ap3 ansible_host=192.168.11.54
+
+[sogi]
+sogi01 ansible_host=192.168.11.56
+sogi02 ansible_host=192.168.11.57
+
+[esimon]
+esimon-ap1 ansible_host=192.168.11.12
+esimon-ap2 ansible_host=192.168.11.13
+esimon-ap3 ansible_host=192.168.11.14
+esimon-ap4 ansible_host=192.168.11.15
+esimon-ap5 ansible_host=192.168.11.20
+esimon-ap6 ansible_host=192.168.11.21
+
+[tomcatservers:children]
+zzm
+iguard
+mysolid
+esimon
+sogi
+

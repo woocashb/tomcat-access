@@ -1,0 +1,9 @@
+---
+keepalived_auth_pass: "RiDD0pKu"
+keepalived_service_name: "haproxy"
+keepalived_vrrp_instance: "test"
+keepalived_virtual_router_id: 50
+keepalived_virtual_ipaddress: 192.168.251.7/32
+
+
+...

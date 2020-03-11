@@ -1,0 +1,9 @@
+[sandbox]
+sandbox1 ansible_host=192.168.251.1
+sandbox2 ansible_host=192.168.251.2
+sandbox3 ansible_host=192.168.251.3
+sandbox4 ansible_host=192.168.251.4
+
+[sandbox-ha-cluster]
+sandbox1 ansible_host=192.168.251.1
+sandbox2 ansible_host=192.168.251.2
