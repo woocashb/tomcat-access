@@ -1,6 +1,12 @@
 ---
 # tasks file for delos-user-access
 
+- name: Validate access level parameter
+  assert:
+   that: tomcat_user_access_type in ['ro', 'rw', 'operator']
+   fail_msg: "Only 'ro', 'rw' and 'operator' access types are supported!"
+   
+
 - name: Create group tomcat-{{ tomcat_user_access_type }}
   group:
    name: "tomcat-{{ tomcat_user_access_type }}"
