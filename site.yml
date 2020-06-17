@@ -1,6 +1,7 @@
 ---
 - name: Master playbook
   
+  #hosts: iguard sogi zzm mysolid esimon
   hosts: all
 
   roles:
