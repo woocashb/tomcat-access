@@ -1,10 +1,21 @@
 ---
 # tasks file for delos-user-access
 
+- name: Validate access level parameter
+  assert:
+   that: tomcat_user_access_type in ['ro', 'rw', 'operator']
+   fail_msg: "Only 'ro', 'rw' and 'operator' access types are supported!"
+   
+
 - name: Create group tomcat-{{ tomcat_user_access_type }}
   group:
    name: "tomcat-{{ tomcat_user_access_type }}"
    state: present
+
+- name: Ensure custom script directory at {{ script_directory }} is present
+  file:
+    dest: "{{ script_directory }}"
+    state: directory
 
 - name: Deploy script for permission setup
   copy:
@@ -22,10 +33,16 @@
    name: "{{ item }}"
    shell: /bin/bash
    state: present
-   groups: "tomcat-{{ tomcat_user_access_type }}"
    append: yes
   with_items: "{{ tomcat_user_list }}"
   register: create_user
+
+- name: Add user to tomcat-{{ tomcat_user_access_type }} group
+  user:
+    name: "{{ item }}"
+    groups: tomcat-{{ tomcat_user_access_type }}
+    append: yes
+  with_items: "{{ tomcat_user_list }}"
 
 - name: Deploy sudoers file granting management over tomcat service for tomcat operators
   template:
