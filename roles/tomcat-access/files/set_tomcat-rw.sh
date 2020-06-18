@@ -6,5 +6,7 @@ if [[ -z $TOMCAT_HOME ]];then
    echo "Nie udało się ustalić katalogu domowego Tomcata - przerywam działanie, czy usługa jest włączona?"
    exit 1
 fi
+
+setfacl -Rdm u:tomcat:rwx $TOMCAT_HOME
 find $TOMCAT_HOME -follow -type d -exec setfacl -m g:tomcat-rw:rwx '{}' \;
 find $TOMCAT_HOME -follow -type f -exec setfacl -m g:tomcat-rw:rw '{}' \;
